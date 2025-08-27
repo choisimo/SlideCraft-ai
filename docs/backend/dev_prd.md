@@ -95,6 +95,13 @@ Error model
 - Logs: request_id, user_id, route, status_code, latency_ms
 
 ## Security
+
+### Centralized Environment Management
+- See env schema: ./env.md
+- Load order: OS ENV > .env.{env} > .env.local > .env > .env.defaults
+- Validate on boot (Zod or equivalent). Fail fast with clear errors.
+- No secrets in VCS; use secret managers in CI/Prod.
+
 - Secrets via env: OPENAI_API_KEY, OPENROUTER_API_KEY, STORAGE_PROVIDER, LOCAL_STORAGE_ROOT, S3_*, GDRIVE_*, JWT_SECRET, DB_URL, REDIS_URL
 - PII: avoid storing prompts raw; redact emails in logs
 - Object access: signed URLs; private by default

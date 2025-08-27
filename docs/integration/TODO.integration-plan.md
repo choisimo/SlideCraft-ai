@@ -24,5 +24,5 @@
 5) PPTX Export → 다운로드 → PowerPoint 열기 검증
 
 ## Readiness Checklist
-- Test samples prepared; credentials in .env; feature flags set
+- Test samples prepared; credentials injected via secret manager or .env.local; .env.defaults present; feature flags set
 - Monitoring dashboard with job durations and AI latency

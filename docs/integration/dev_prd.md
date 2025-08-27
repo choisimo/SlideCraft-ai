@@ -32,6 +32,12 @@ This document ties together backend and frontend contracts into end-to-end, test
 - Error body: { code, message, details? }
 
 ## Secrets and Envs
+
+### Centralized Management
+- Backend env schema: ../backend/env.md
+- Files: .env.defaults (tracked, safe defaults), .env/.env.local/.env.{env} (ignored)
+- CI/Prod: inject via secret manager; do not commit secrets
+- Build-time verification of required keys; fail build if missing
 - FE: VITE_API_BASE_URL; optional VITE_ENABLE_MSW for mocks
 - BE: DB_URL, REDIS_URL, STORAGE_PROVIDER, LOCAL_STORAGE_ROOT, S3_*, GDRIVE_*, JWT_SECRET, OPENAI_API_KEY, OPENROUTER_API_KEY
 - Local: provide `.env.example` with placeholders across repos
