@@ -1,0 +1,207 @@
+openapi: 3.0.3
+info:
+  title: SlideCraft API
+  version: 0.1.0
+servers:
+  - url: http://localhost:8787/api/v1
+paths:
+  /uploads/init:
+    post:
+      summary: Initialize a multipart upload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: string
+                size:
+                  type: integer
+                contentType:
+                  type: string
+              required: [filename, size, contentType]
+      responses:
+        "200":
+          description: Upload initialized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uploadId: { type: string }
+                  parts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        partNumber: { type: integer }
+                        url: { type: string }
+                  completeUrl: { type: string }
+  /convert:
+    post:
+      summary: Enqueue a convert job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                objectKey: { type: string }
+                sourceType: { type: string, enum: [pptx, pdf, docx] }
+                documentTitle: { type: string }
+              required: [objectKey, sourceType]
+      responses:
+        "202":
+          description: Job accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId: { type: string }
+  /jobs/{id}:
+    get:
+      summary: Get job status
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Job state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+  /documents:
+    post:
+      summary: Create a document from conversion result
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                jobId: { type: string }
+              required: [jobId]
+      responses:
+        "201":
+          description: Document created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  documentId: { type: string }
+  /documents/{id}:
+    get:
+      summary: Get a document
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Document
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+  /export:
+    post:
+      summary: Enqueue an export job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                documentId: { type: string }
+                format: { type: string, enum: [pptx, pdf] }
+              required: [documentId, format]
+      responses:
+        "202":
+          description: Job accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId: { type: string }
+  /exports/{jobId}/download:
+    get:
+      summary: Download export result via signed URL
+      parameters:
+        - in: path
+          name: jobId
+          required: true
+          schema: { type: string }
+      responses:
+        "302":
+          description: Redirect
+  /ai/chat:
+    post:
+      summary: Chat with AI (SSE optional)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                documentId: { type: string }
+                selection: { type: object }
+                messages:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      role: { type: string, enum: [system, user, assistant] }
+                      content: { type: string }
+                model: { type: string }
+      responses:
+        "200":
+          description: Chat response (non-stream)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  messageId: { type: string }
+                  content: { type: string }
+components:
+  schemas:
+    Job:
+      type: object
+      properties:
+        id: { type: string }
+        type: { type: string }
+        status: { type: string, enum: [pending, running, succeeded, failed, canceled] }
+        progress: { type: integer, minimum: 0, maximum: 100 }
+        error:
+          type: object
+          properties:
+            code: { type: string }
+            message: { type: string }
+        result:
+          type: object
+          properties:
+            documentId: { type: string }
+            exportUrl: { type: string }
+    Document:
+      type: object
+      properties:
+        id: { type: string }
+        title: { type: string }
+        ownerId: { type: string }
+        updatedAt: { type: string, format: date-time }
+        deck:
+          type: object
+          description: Normalized deck JSON
