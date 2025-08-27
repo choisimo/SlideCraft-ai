@@ -7,7 +7,7 @@ This document ties together backend and frontend contracts into end-to-end, test
 ### Flow A: Upload → Convert → Document Created → Export
 - Preconditions: Auth token available; quotas ok
 - Steps
-  1) FE: POST /uploads/init; perform multipart upload to S3; POST /uploads/:id/complete
+  1) FE: POST /uploads/init; perform upload to selected storage (S3-multipart, Local direct, or Google Drive); POST /uploads/:id/complete
   2) FE: POST /convert { objectKey, sourceType }
   3) FE: Poll GET /jobs/:id or subscribe to jobs.{id}
   4) FE: On success, POST /documents { jobId } → { documentId }
@@ -33,7 +33,7 @@ This document ties together backend and frontend contracts into end-to-end, test
 
 ## Secrets and Envs
 - FE: VITE_API_BASE_URL; optional VITE_ENABLE_MSW for mocks
-- BE: DB_URL, REDIS_URL, S3_*, JWT_SECRET, OPENAI_API_KEY, OPENROUTER_API_KEY
+- BE: DB_URL, REDIS_URL, STORAGE_PROVIDER, LOCAL_STORAGE_ROOT, S3_*, GDRIVE_*, JWT_SECRET, OPENAI_API_KEY, OPENROUTER_API_KEY
 - Local: provide `.env.example` with placeholders across repos
 
 ## Observability

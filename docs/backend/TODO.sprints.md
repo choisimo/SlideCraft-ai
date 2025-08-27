@@ -9,7 +9,7 @@ Scope:
 - BE-B1-001..004 (Multipart path)
 - BE-B1-100..101 (Job + worker skeleton)
 DoD: docker compose up; sample upload init→complete; job queued
-Risks: S3/minio compatibility nuances
+Risks: storage provider compatibility nuances (S3/MinIO vs Local FS permissions vs Google Drive API quotas)
 
 ## Sprint 2 — Conversion parsers
 Scope:

@@ -19,7 +19,7 @@ Scope: gateway API, workers, realtime, storage, AI proxy, export, comments, auth
 ### Epic B1 Upload & Storage (P0)
 - Story B1-S1: Init & multipart
   - BE-B1-001: POST /uploads init (size, hash, type) (0.5d)
-  - BE-B1-002: S3 multipart presign; part size policy (0.5d)
+  - BE-B1-002: Storage providers: Local direct upload, S3 multipart presign, Google Drive resumable; part size/policy (0.5d)
   - BE-B1-003: Complete + ETag verification (0.5d)
   - BE-B1-004: Progress events (SSE/ws) (0.5d)
   - Tests/AC: 2GB mock, resume, checksum match; Est: 2d

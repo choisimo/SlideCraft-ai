@@ -11,7 +11,7 @@ This document translates high-level PRD to concrete implementation details for t
 - Workers: Python (Celery/RQ) for conversion/export; optional Node worker for light tasks
 - Queue: Redis/RabbitMQ
 - DB: PostgreSQL (+ pgvector optional)
-- Object storage: S3-compatible (MinIO in dev)
+- Storage: pluggable backends — Local FS (dev default), S3-compatible (e.g., AWS S3/MinIO), Google Drive (service account)
 - Realtime: WebSocket/SSE (socket.io or y-websocket if Yjs is chosen)
 - Observability: OpenTelemetry, Prometheus metrics, structured logs (JSON)
 
@@ -95,7 +95,7 @@ Error model
 - Logs: request_id, user_id, route, status_code, latency_ms
 
 ## Security
-- Secrets via env: OPENAI_API_KEY, OPENROUTER_API_KEY, S3_*, JWT_SECRET, DB_URL, REDIS_URL
+- Secrets via env: OPENAI_API_KEY, OPENROUTER_API_KEY, STORAGE_PROVIDER, LOCAL_STORAGE_ROOT, S3_*, GDRIVE_*, JWT_SECRET, DB_URL, REDIS_URL
 - PII: avoid storing prompts raw; redact emails in logs
 - Object access: signed URLs; private by default
 
@@ -124,7 +124,7 @@ Error model
 - [ ] Auth middleware stubs
 - [ ] Rate limiter
 - [ ] SSE helper
-- [ ] S3 signer util
+- [ ] Storage adapters: local, S3 signer util, Google Drive resumable
 - [ ] Job repo (PG) + publisher (Redis)
 - [ ] Health checks
 

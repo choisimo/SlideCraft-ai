@@ -10,7 +10,7 @@
 - Tests: 2GB mock; restart mid-upload; slow-client simulation
 
 ## Conversion Pipeline (P0)
-- AC: DOCX/PDF/PPTX parsed; normalized Deck JSON persisted; assets in S3
+- AC: DOCX/PDF/PPTX parsed; normalized Deck JSON persisted; assets stored via configured provider (Local/S3/Google Drive)
 - DoD: retries/backoff; partial failure handling; idempotent jobs
 - Tests: fidelity on sample set; corrupted file path
 

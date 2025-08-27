@@ -50,7 +50,7 @@ Methodology used:
 - Tasks:
   - Component: <FileDropzone/> with accept filters.
   - Hook: useUpload(queue, progress, cancel, retry).
-  - Show server-side chunked upload progress; resumable via tus or S3-multipart compatible backend.
+  - Show server-side chunked upload progress; resumable via tus or S3-multipart compatible backend; support storage selection (Local, S3, Google Drive) surfaced from BE capability.
   - Error surfaces and retry.
 - Tests: upload happy path; invalid type; large file progress; cancel.
 - Acceptance: files reach server; UI reflects server progress.

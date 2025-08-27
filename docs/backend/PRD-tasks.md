@@ -8,7 +8,7 @@ Methodologies: BMAD, task-master-ai parse-prd decomposition.
 
 ### Epic B0.1: Architecture & repositories
 - Choose monorepo vs polyrepo (keep within this repo as backend/ dir if needed).
-- Service layout: gateway (Node.js Fastify), worker (Python Celery), realtime (WebSocket service), job queue (Redis/RabbitMQ), DB (PostgreSQL), object storage (S3-compatible, e.g., MinIO), cache (Redis).
+- Service layout: gateway (Node.js Fastify), worker (Python Celery), realtime (WebSocket service), job queue (Redis/RabbitMQ), DB (PostgreSQL), storage backends (pluggable: Local FS, S3-compatible like AWS S3/MinIO, Google Drive), cache (Redis).
 - IaC later (P1). Docker Compose for local.
 - Acceptance: docker compose up boots all services.
 
@@ -23,7 +23,10 @@ Methodologies: BMAD, task-master-ai parse-prd decomposition.
 ### Epic B1.1: Upload API and storage
 - Multipart and/or tus/S3-multipart endpoints with checksum verification.
 - Virus scan hook (clamav optional); type sniffing; size limits.
-- Store original in S3 bucket s3://slidecraft/original/{userId}/{uuid}
+- Store original via configured storage backend, e.g.,
+  - Local FS: file://${LOCAL_STORAGE_ROOT}/original/{userId}/{uuid}
+  - S3: s3://{S3_BUCKET}/original/{userId}/{uuid}
+  - Google Drive: drive://{GDRIVE_FOLDER_ID}/original/{userId}/{uuid}
 - Create Job record: status=queued.
 - Acceptance: >2GB resumable upload supported; progress callbacks via SSE/WebSocket.
 
@@ -33,7 +36,7 @@ Methodologies: BMAD, task-master-ai parse-prd decomposition.
   - PPTX → JSON + assets using python-pptx + PIL; retain slides, text boxes, images, shapes, order.
   - PDF (text-first) → pages→slides, extract text blocks/images using PyMuPDF.
   - DOCX → outline by H1/H2; paragraphs/lists/images via python-docx.
-- Normalize to common Deck schema (JSON) and store in DB (jsonb) + assets in S3.
+- Normalize to common Deck schema (JSON) and store in DB (jsonb) + assets in configured storage (Local/S3/Google Drive).
 - Emit progress events: parsed→normalized→assets-uploaded→done.
 - Acceptance: fidelity baseline met on sample set.
 
@@ -75,7 +78,7 @@ Methodologies: BMAD, task-master-ai parse-prd decomposition.
 ### Epic B4.1: PPTX export
 - Service converts normalized Deck JSON back to .pptx using python-pptx.
 - Layout mapping; fonts; images; shapes; notes; master styles subset.
-- Job endpoint + storage path s3://slidecraft/export/{docId}/{jobId}.pptx
+- Job endpoint + storage path based on provider, e.g., s3://{S3_BUCKET}/export/{docId}/{jobId}.pptx or file://${LOCAL_STORAGE_ROOT}/export/{docId}/{jobId}.pptx or drive://{GDRIVE_FOLDER_ID}/export/{docId}/{jobId}.pptx
 
 ### Epic B4.2: PDF export
 - Headless rendering (Chrome/Puppeteer) or reportlab; pagination; DPIs.

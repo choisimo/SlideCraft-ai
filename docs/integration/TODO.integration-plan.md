@@ -5,7 +5,7 @@
 - J2 PPTX→Convert→Co-edit→Export PDF
 
 ## Contracts
-- Upload init/parts/complete (multipart) and tus alternative
+- Upload init/parts/complete (multipart) and tus alternative; storage providers: Local FS, S3-compatible, Google Drive
 - Job events: {status, progress, message}
 - Realtime presence: {userId, name, color, cursor, selection}
 - AI stream: text/event-stream with delta chunks
