@@ -6,11 +6,12 @@ import {
   Sparkles, 
   Settings, 
   Bell,
-  Search,
-  Menu
+  Search
 } from "lucide-react";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { cn } from "@/lib/utils";
+import { config } from "@/lib/config";
+import { Badge } from "@/components/ui/badge";
 
 interface User {
   id: string;
@@ -112,6 +113,12 @@ export const Header = ({
 
         {/* Right Section - Actions */}
         <div className="flex items-center gap-1 md:gap-3">
+          {/* Storage provider badge (display-only) */}
+          {!isMobile && (
+            <Badge variant="secondary" className="mr-2">
+              Storage: {config.storageProvider}
+            </Badge>
+          )}
           {isMobile ? (
             <>
               <Button 
