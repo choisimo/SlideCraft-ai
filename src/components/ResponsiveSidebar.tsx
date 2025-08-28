@@ -129,31 +129,38 @@ const SidebarContent_: React.FC<{
         <SidebarGroupLabel>주요 기능</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            {mainTools.map((tool) => (
+             {mainTools.map((tool) => (
               <SidebarMenuItem key={tool.id}>
                 <SidebarMenuButton 
-                  onClick={() => setSelectedTool(tool.id)}
+                  asChild
                   className={cn(
                     selectedTool === tool.id && "bg-sidebar-accent text-sidebar-accent-foreground",
                     isMobileDrawer && "py-3"
                   )}
                 >
-                  <tool.icon className="w-4 h-4" />
-                  {(state !== "collapsed" || isMobileDrawer) && (
-                    <>
-                      <span>{tool.title}</span>
-                      {tool.badge && (
-                        <Badge variant="outline" className="ml-auto text-xs">
-                          {tool.badge}
-                        </Badge>
-                      )}
-                      {tool.count && (
-                        <Badge variant="secondary" className="ml-auto text-xs">
-                          {tool.count}
-                        </Badge>
-                      )}
-                    </>
-                  )}
+                  <a href={
+                    tool.id === "chat" ? "/" :
+                    tool.id === "upload" ? "/upload" :
+                    tool.id === "slides" ? "/slides" :
+                    tool.id === "collaboration" ? "/collab" : "/"
+                  }>
+                    <tool.icon className="w-4 h-4" />
+                    {(state !== "collapsed" || isMobileDrawer) && (
+                      <>
+                        <span>{tool.title}</span>
+                        {tool.badge && (
+                          <Badge variant="outline" className="ml-auto text-xs">
+                            {tool.badge}
+                          </Badge>
+                        )}
+                        {tool.count && (
+                          <Badge variant="secondary" className="ml-auto text-xs">
+                            {tool.count}
+                          </Badge>
+                        )}
+                      </>
+                    )}
+                  </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
@@ -183,11 +190,13 @@ const SidebarContent_: React.FC<{
         <SidebarGroupLabel>빠른 작업</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            {quickActions.map((action) => (
+             {quickActions.map((action) => (
               <SidebarMenuItem key={action.id}>
-                <SidebarMenuButton className={isMobileDrawer ? "py-3" : ""}>
-                  <action.icon className="w-4 h-4" />
-                  {(state !== "collapsed" || isMobileDrawer) && <span>{action.title}</span>}
+                <SidebarMenuButton className={isMobileDrawer ? "py-3" : ""} asChild>
+                  <a href={action.id === "export" ? "/attachments" : action.id === "history" ? "/slides" : "/settings"}>
+                    <action.icon className="w-4 h-4" />
+                    {(state !== "collapsed" || isMobileDrawer) && <span>{action.title}</span>}
+                  </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
