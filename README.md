@@ -78,7 +78,7 @@ ppt-ai-generator/
 1. **저장소 클론**
    ```bash
    git clone <repository-url>
-   cd ppt-ai-generator
+   cd SlideCraft-ai
    ```
 
 2. **의존성 설치**
@@ -91,7 +91,9 @@ ppt-ai-generator/
    npm run dev
    ```
    
-   애플리케이션이 `http://localhost:5173`에서 실행됩니다.
+   애플리케이션이 `http://localhost:8080`에서 실행됩니다.
+   
+   개발 중 백엔드 프록시는 Vite dev 서버가 `/api` 요청을 `DEV_PROXY_TARGET`(기본 `http://localhost:3000`)으로 전달하도록 설정되어 있습니다.
 
 ### 사용 가능한 스크립트
 

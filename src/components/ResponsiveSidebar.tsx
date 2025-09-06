@@ -23,8 +23,6 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { 
-  FileText, 
-  Image, 
   Layers,
   Download,
   History,
@@ -64,9 +62,9 @@ const SidebarContent_: React.FC<{
   isMobileDrawer = false 
 }) => {
   const mainTools = [
-    { id: "chat", title: "AI 채팅", icon: MessageSquare, badge: "실시간" },
+    { id: "chat", title: "AI 채팅", icon: MessageSquare, badge: undefined },
     { id: "upload", title: "파일 업로드", icon: Upload },
-    { id: "slides", title: "슬라이드 관리", icon: Layers, count: 5 },
+    { id: "slides", title: "슬라이드 관리", icon: Layers },
     { id: "collaboration", title: "협업", icon: Users, count: activeUsers },
   ];
 

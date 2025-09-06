@@ -2,17 +2,17 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { 
-  CheckCircle2, 
-  Clock, 
-  Loader2, 
-  AlertCircle,
-  Users,
-  Zap,
-  FileText,
-  Sparkles
+   CheckCircle2, 
+   Loader2, 
+   AlertCircle,
+   Users,
+   Zap,
+   FileText,
+   Sparkles
 } from "lucide-react";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { cn } from "@/lib/utils";
+import React from "react";
 
 interface AIStatus {
   stage: string;
@@ -24,10 +24,27 @@ interface AIStatus {
 
 interface AIStatusBarProps {
   aiStatus?: AIStatus;
-  autoSaveStatus?: string;
+  autoSaveStatus?: string; // fallback string
+  autoSaveAt?: number; // epoch ms to compute relative time
   className?: string;
 }
-
+ 
+function formatRelativeTime(from: number, now: number): string {
+  const diffMs = Math.max(0, now - from);
+  const sec = Math.floor(diffMs / 1000);
+  if (sec < 5) return "방금";
+  if (sec < 60) return `${sec}초 전`;
+  const min = Math.floor(sec / 60);
+  if (min < 60) return `${min}분 전`;
+  const hr = Math.floor(min / 60);
+  if (hr < 24) return `${hr}시간 전`;
+  const day = Math.floor(hr / 24);
+  if (day === 1) return "어제";
+  if (day < 7) return `${day}일 전`;
+  const d = new Date(from);
+  return d.toLocaleDateString();
+}
+ 
 export const AIStatusBar = ({ 
   aiStatus = {
     stage: "대기 중",
@@ -35,10 +52,17 @@ export const AIStatusBar = ({
     status: "idle",
     details: "AI가 다음 작업을 대기하고 있습니다"
   },
-  autoSaveStatus = "2분 전 자동 저장됨",
+  autoSaveStatus = "자동 저장됨 • 방금",
+  autoSaveAt,
   className
 }: AIStatusBarProps) => {
   const { isMobile, isTablet } = useBreakpoint();
+  const [nowTick, setNowTick] = React.useState(Date.now());
+  React.useEffect(() => {
+    const id = setInterval(() => setNowTick(Date.now()), 60_000);
+    return () => clearInterval(id);
+  }, []);
+  const autoSaveDisplay = autoSaveAt ? `자동 저장됨 • ${formatRelativeTime(autoSaveAt, nowTick)}` : autoSaveStatus;
   
   const getStatusIcon = () => {
     switch (aiStatus.status) {
@@ -162,13 +186,13 @@ export const AIStatusBar = ({
               {/* Collaboration */}
               <div className="flex items-center gap-2">
                 <Users className="w-3 h-3 md:w-4 md:h-4" />
-                <span>{aiStatus.collaborators || 3}명</span>
+                 <span>{aiStatus.collaborators ?? 0}명</span>
               </div>
 
               {/* Document */}
               <div className="flex items-center gap-2">
                 <FileText className="w-3 h-3 md:w-4 md:h-4" />
-                <span>슬라이드 5개</span>
+                 <span>슬라이드</span>
               </div>
 
               {/* AI Features */}
@@ -182,10 +206,13 @@ export const AIStatusBar = ({
           {/* Auto Save Status */}
           <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
             <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4 text-success" />
-            <span className={cn(
-              isTablet ? "hidden sm:inline" : ""
-            )}>
-              {autoSaveStatus}
+            <span
+              className={cn(
+                isTablet ? "hidden sm:inline" : ""
+              )}
+              title={autoSaveAt ? new Date(autoSaveAt).toLocaleString() : undefined}
+            >
+              {autoSaveAt ? `자동 저장됨 • ${formatRelativeTime(autoSaveAt, nowTick)}` : autoSaveStatus}
             </span>
           </div>
         </div>
@@ -199,7 +226,7 @@ export const AIStatusBar = ({
             {!isTablet && (
               <>
                 <span>•</span>
-                <span>⏱️ 예상 완료: 30초</span>
+                 <span>⏱️ 처리 중...</span>
               </>
             )}
           </div>

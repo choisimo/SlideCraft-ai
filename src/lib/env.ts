@@ -6,8 +6,10 @@ const EnvSchema = z.object({
   VITE_API_BASE_URL: z
     .string()
     .trim()
-    .url()
-    .or(z.literal("").transform(() => ""))
+    // Accept absolute URLs or "/api" style relative base for dev proxy
+    .refine((v) => v === "" || v.startsWith("/") || /^https?:\/\//.test(v), {
+      message: "VITE_API_BASE_URL must be an absolute URL or a relative base like /api",
+    })
     .default(""),
   VITE_STORAGE_PROVIDER: z
     .enum(["local", "s3", "gdrive"]) // display-only on FE

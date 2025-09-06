@@ -38,9 +38,10 @@ This document ties together backend and frontend contracts into end-to-end, test
 - Files: .env.defaults (tracked, safe defaults), .env/.env.local/.env.{env} (ignored)
 - CI/Prod: inject via secret manager; do not commit secrets
 - Build-time verification of required keys; fail build if missing
-- FE: VITE_API_BASE_URL; optional VITE_ENABLE_MSW for mocks
+- FE: `VITE_API_BASE_URL` (set to `/api` in dev)
+- Vite dev proxy: `/api` → `DEV_PROXY_TARGET` (default `http://localhost:3000`)
 - BE: DB_URL, REDIS_URL, STORAGE_PROVIDER, LOCAL_STORAGE_ROOT, S3_*, GDRIVE_*, JWT_SECRET, OPENAI_API_KEY, OPENROUTER_API_KEY
-- Local: provide `.env.example` with placeholders across repos
+- Local: provide `.env.example` with safe defaults across repos (no secrets)
 
 ## Observability
 - Trace propagation: `traceparent` header from FE → BE → workers
@@ -48,7 +49,7 @@ This document ties together backend and frontend contracts into end-to-end, test
 - Frontend RUM: minimal Web Vitals + custom events
 
 ## Quality Gates
-- Contract tests: json-schema for key endpoints; FE MSW fixtures mirror BE OpenAPI examples
+- Contract tests: json-schema for key endpoints; FE fixtures mirror BE OpenAPI examples
 - SLIs and SLOs from `docs/integration/PRD-tasks.md` enforced in alerts
 
 ## CI/CD Hooks

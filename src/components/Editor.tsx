@@ -68,38 +68,38 @@ export const Editor = ({ currentSlide = 1, totalSlides = 5 }: EditorProps) => {
             
             {/* Title */}
             <div className="text-center space-y-4">
-              <h1 className="text-4xl font-bold text-gray-900 tracking-tight">
-                Welcome to SlideCraft AI
-              </h1>
+               <h1 className="text-4xl font-bold text-gray-900 tracking-tight">
+                Slide
+               </h1>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                Transform your documents into beautiful presentations with AI-powered collaboration
+                 
               </p>
             </div>
 
             {/* Feature Highlights */}
             <div className="grid grid-cols-3 gap-6 mt-12">
-              <div className="text-center space-y-2">
+               <div className="text-center space-y-2">
                 <div className="w-12 h-12 gradient-primary rounded-lg mx-auto flex items-center justify-center">
                   <Type className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="font-semibold text-gray-900">Smart Import</h3>
-                <p className="text-sm text-gray-600">Convert any document format</p>
+                <h3 className="font-semibold text-gray-900">Import</h3>
+                <p className="text-sm text-gray-600"></p>
               </div>
               
               <div className="text-center space-y-2">
                 <div className="w-12 h-12 gradient-primary rounded-lg mx-auto flex items-center justify-center">
                   <MousePointer className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="font-semibold text-gray-900">Real-time Collaboration</h3>
-                <p className="text-sm text-gray-600">Edit together seamlessly</p>
+                <h3 className="font-semibold text-gray-900">Collaboration</h3>
+                <p className="text-sm text-gray-600"></p>
               </div>
               
               <div className="text-center space-y-2">
                 <div className="w-12 h-12 gradient-primary rounded-lg mx-auto flex items-center justify-center">
                   <Shapes className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="font-semibold text-gray-900">AI Enhancement</h3>
-                <p className="text-sm text-gray-600">Intelligent content suggestions</p>
+                <h3 className="font-semibold text-gray-900">Enhancement</h3>
+                <p className="text-sm text-gray-600"></p>
               </div>
             </div>
 
@@ -116,7 +116,7 @@ export const Editor = ({ currentSlide = 1, totalSlides = 5 }: EditorProps) => {
           <div className="absolute bottom-20 right-20">
             <div className="flex items-center gap-2 bg-secondary text-white px-2 py-1 rounded-md text-xs font-medium">
               <div className="w-2 h-2 bg-white rounded-full"></div>
-              Alex is editing...
+               Collaborator is editing...
             </div>
           </div>
 
@@ -126,11 +126,11 @@ export const Editor = ({ currentSlide = 1, totalSlides = 5 }: EditorProps) => {
       {/* Status Bar */}
       <div className="border-t border-border bg-background/50 px-6 py-3">
         <div className="flex items-center justify-between text-sm text-muted-foreground">
-          <div className="flex items-center gap-4">
-            <span>✓ Auto-saved 2 minutes ago</span>
-            <span>•</span>
-            <span>2 collaborators online</span>
-          </div>
+            <div className="flex items-center gap-4">
+              <span>Auto-saved</span>
+              <span>•</span>
+              <span>Collaborators</span>
+            </div>
           <div className="flex items-center gap-4">
             <span>Zoom: 100%</span>
             <span>•</span>

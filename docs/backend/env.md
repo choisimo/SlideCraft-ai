@@ -43,7 +43,7 @@ Google Drive (required if STORAGE_PROVIDER=gdrive)
 - REDIS_URL: redis:// (required in non-dev)
 
 ## Auth/Security
-- JWT_SECRET: secret (required in non-dev; dev may use placeholder)
+- JWT_SECRET: secret (required in non-dev; use clearly marked dev-only values in development)
 
 ## AI Providers (optional)
 - OPENAI_API_KEY: secret
@@ -56,7 +56,7 @@ Google Drive (required if STORAGE_PROVIDER=gdrive)
 ## Validation Guidance
 - Validate at boot using a schema library (e.g., Zod). Exit(1) on failure with clear messages.
 - Conditional requirements based on STORAGE_PROVIDER.
-- In dev, allow placeholders for DB_URL, JWT_SECRET, etc., but warn loudly.
+- In dev, allow non-production values for DB_URL, JWT_SECRET, etc., but warn loudly.
 
 ## Example Defaults (.env.defaults)
 See repository root .env.defaults for safe defaults you can override locally.

@@ -28,29 +28,7 @@ interface CommentPanelProps {
 }
 
 export const CommentPanel = ({ 
-  comments = [
-    {
-      id: "1",
-      author: { name: "Sarah Kim", avatar: "" },
-      content: "이 슬라이드의 제목을 좀 더 임팩트 있게 바꿔보면 어떨까요?",
-      timestamp: "2분 전",
-      status: "open"
-    },
-    {
-      id: "2", 
-      author: { name: "Alex Chen" },
-      content: "차트 데이터를 최신 분기 자료로 업데이트해야 할 것 같습니다.",
-      timestamp: "5분 전",
-      status: "resolved"
-    },
-    {
-      id: "3",
-      author: { name: "Jamie Park" },
-      content: "색상 테마가 브랜드 가이드라인과 일치하는지 확인해주세요.",
-      timestamp: "10분 전", 
-      status: "open"
-    }
-  ], 
+  comments = [], 
   onAddComment 
 }: CommentPanelProps) => {
   return (

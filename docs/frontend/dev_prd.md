@@ -15,9 +15,12 @@ This document derives concrete implementation steps from `docs/frontend/PRD-task
 - State: local React state; consider Zustand for editor state later
 
 ## Current Implementation Snapshot
-- Routes: `/` mapped to `pages/Index.tsx`; `NotFound` for `*`
+- Routes: `/` and `/d/:docId` mapped to `pages/Index.tsx`; `NotFound` for `*`
+- Layout: `AppShell` with `Header`, `AppSidebar`, and `auxiliary` mounting `CommentPanel` on desktop
 - Query client initialized in `App.tsx`
-- Core components: `AIChatInterface`, `AIStatusBar`, `AppShell`, `AppSidebar`, `Header`
+- Core components: `AIChatInterface`, `AIStatusBar`, `AppShell`, `AppSidebar`, `Header`, `CommentPanel`
+- Dev server: Vite at `http://localhost:8080` with `/api` proxied to `DEV_PROXY_TARGET` (default `http://localhost:3000`)
+- Env: `VITE_API_BASE_URL=/api`, optional `DEV_PROXY_TARGET` for local backend
 - Demo behavior: `handleSendMessage` simulates progress via interval; to be replaced by job polling or SSE.
 
 ## Target Routes (progressive)
@@ -26,7 +29,7 @@ This document derives concrete implementation steps from `docs/frontend/PRD-task
 - `/jobs/:jobId` Job details (debug)
 
 ## Client API Layer
-Create `src/lib/api.ts` to centralize calls and support mock/stub.
+Create `src/lib/api.ts` to centralize calls and match backend contracts.
 - postUploadInit(fileMeta)
 - patchUploadPart(uploadId, part)
 - postUploadComplete(uploadId, parts)
@@ -70,7 +73,7 @@ Include an SSE helper for streaming chat and job updates.
 
 ## Testing Strategy
 - Unit: rendering of Header/AppSidebar/AI components
-- Integration: mock API with MSW; contract fixtures for /jobs and /ai/chat
+- Integration: use real API; contract fixtures for /jobs and /ai/chat align with backend OpenAPI
 - E2E (later): Playwright for import→edit→export
 
 ## Step-by-step Integration Plan
@@ -78,14 +81,14 @@ Include an SSE helper for streaming chat and job updates.
 2) Wire Index.tsx: replace fake progress with real job lifecycle
 3) Add `/jobs/:jobId` route for debug
 4) Add SSE support for AI chat streaming
-5) Introduce `/d/:docId` route stub
+5) Introduce `/d/:docId` route and progressively enhance
 
 ## Checklists
 - [ ] `src/lib/api.ts` with baseURL from env (VITE_API_BASE_URL)
 - [ ] Job polling hook with backoff
 - [ ] SSE utility with abort controller
 - [ ] ErrorBoundary wrapper
-- [ ] MSW mocks for local development
+- [ ] Ensure local dev proxy to real backend is configured
 
 ## Open Questions / TODO
 - Decide on state store for editor (Zustand vs Jotai)

@@ -108,13 +108,13 @@ Error model
 
 ## Testing Strategy
 - Contract tests generated from OpenAPI
-- Worker integration tests with sample files (small PPTX/PDF/DOCX)
+- Worker integration tests with prepared test files (small PPTX/PDF/DOCX)
 - Idempotency tests for upload complete and job enqueue
 - Load test targets: GET /jobs/:id P95 < 200ms
 
 ## Migration Plan
-- Phase A (stub): implement minimal gateway with in-memory job store to unblock UI
-- Phase B (persist): add Postgres + Redis; wire queues; S3 mock (MinIO)
+- Phase A: implement minimal gateway with in-memory job store to unblock UI
+- Phase B (persist): add Postgres + Redis; wire queues; S3-compatible (MinIO)
 - Phase C (scale): observability, rate-limit, retries
 
 ## OpenAPI Skeleton (to be added under docs/backend/openapi.yaml)
@@ -122,8 +122,10 @@ Error model
 - Tags: Uploads, Jobs, Documents, Exports, AI
 
 ## Mapping to Frontend (current state)
-- Frontend currently has a single route `/` with chat interface and fake progress. Earliest integration endpoints:
-  - POST /ai/chat (stream or mock)
+- Routes: `/` and `/d/:docId` (stub) with chat UI (`AIChatInterface`), status bar, sidebar, and `CommentPanel` auxiliary on desktop.
+- Dev: Vite at http://localhost:8080 proxies `/api` to `DEV_PROXY_TARGET` (default http://localhost:3000). FE uses `VITE_API_BASE_URL=/api`.
+- Earliest integration endpoints:
+  - POST /ai/chat (SSE streaming)
   - POST /convert + GET /jobs/:id (progress)
   - POST /export + GET /exports/:jobId/download
 
