@@ -147,8 +147,26 @@ paths:
         "302":
           description: Redirect
   /ai/chat:
+    get:
+      summary: List AI providers (placeholder)
+      responses:
+        "200":
+          description: Providers
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  providers:
+                    type: array
+                    items: { type: string }
+
     post:
       summary: Chat with AI (SSE optional)
+      description: |
+        Send chat messages to an AI model. If `stream` is true the response
+        will be an `text/event-stream` emitting incremental `delta` tokens and a
+        final message. Otherwise a single JSON object is returned.
       requestBody:
         required: true
         content:
@@ -166,16 +184,44 @@ paths:
                       role: { type: string, enum: [system, user, assistant] }
                       content: { type: string }
                 model: { type: string }
+                stream: { type: boolean, default: false }
       responses:
         "200":
-          description: Chat response (non-stream)
+          description: Chat response (non-stream mode)
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  messageId: { type: string }
+                  provider: { type: string }
                   content: { type: string }
+        "206":
+          description: Stream started (SSE). Each event data payload is a JSON object:
+            `{ delta?: string, final?: string, provider: string }` followed by a final
+            `data: [DONE]` sentinel.
+  /jobs/{id}/events:
+    get:
+      summary: Server-Sent Events stream for a job
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Event stream
+  /health:
+    get:
+      summary: Health check
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
 components:
   schemas:
     Job:

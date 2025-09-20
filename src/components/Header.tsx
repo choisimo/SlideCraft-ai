@@ -143,13 +143,17 @@ export const Header = ({
             </>
           ) : (
             <>
-              {!isTablet && (
+               {!isTablet && (
                 <>
-                  <Button variant="ghost" size="icon">
-                    <Search className="w-4 h-4" />
+                  <Button variant="ghost" size="icon" asChild>
+                    <a href="/search" aria-label="검색">
+                      <Search className="w-4 h-4" />
+                    </a>
                   </Button>
-                  <Button variant="ghost" size="icon">
-                    <Bell className="w-4 h-4" />
+                  <Button variant="ghost" size="icon" asChild>
+                    <a href="/notifications" aria-label="알림">
+                      <Bell className="w-4 h-4" />
+                    </a>
                   </Button>
                 </>
               )}
@@ -159,8 +163,10 @@ export const Header = ({
               <Button variant="hero" onClick={onShare}>
                 Share
               </Button>
-              <Button variant="ghost" size="icon">
-                <Settings className="w-4 h-4" />
+               <Button variant="ghost" size="icon" asChild>
+                <a href="/settings" aria-label="설정">
+                  <Settings className="w-4 h-4" />
+                </a>
               </Button>
             </>
           )}

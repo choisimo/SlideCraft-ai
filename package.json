@@ -8,7 +8,12 @@
     "build": "vite build && node -e \"console.log('Build succeeded with VITE env validation')\"",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "list": "node scripts/dev.js list",
+    "generate": "node scripts/dev.js generate",
+    "parse-prd": "node scripts/dev.js parse-prd",
+    "task-master": "node scripts/dev.js",
+    "backend:dev": "node backend/gateway/server.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -59,7 +64,25 @@
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.9",
-    "zod": "^3.25.76"
+    "zod": "^3.25.76",
+    "@anthropic-ai/sdk": "^0.39.0",
+    "boxen": "^8.0.1",
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0",
+    "cli-table3": "^0.6.5",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.21.2",
+    "fastmcp": "^1.20.5",
+    "figlet": "^1.8.0",
+    "fuse.js": "^7.0.0",
+    "gradient-string": "^3.0.0",
+    "helmet": "^8.1.0",
+    "inquirer": "^12.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "lru-cache": "^10.2.0",
+    "openai": "^4.89.0",
+    "ora": "^8.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
