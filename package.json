@@ -82,7 +82,10 @@
     "jsonwebtoken": "^9.0.2",
     "lru-cache": "^10.2.0",
     "openai": "^4.89.0",
-    "ora": "^8.2.0"
+    "ora": "^8.2.0",
+    "multer": "^1.4.5-lts.1",
+    "@aws-sdk/client-s3": "^3.723.0",
+    "@aws-sdk/s3-request-presigner": "^3.723.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",

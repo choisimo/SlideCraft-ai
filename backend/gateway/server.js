@@ -6,6 +6,8 @@ import { registerUploadRoutes } from './routes/uploads.js';
 import { registerConvertRoutes } from './routes/convert.js';
 import { registerJobRoutes } from './routes/jobs.js';
 import { registerAiChatRoutes } from './routes/aiChat.js';
+import { registerDocumentsRoutes } from './routes/documents.js';
+import { registerExportRoutes } from './routes/exports.js';
 
 const app = express();
 app.use(cors());
@@ -16,6 +18,8 @@ registerUploadRoutes(app, prefix);
 registerConvertRoutes(app, prefix);
 registerJobRoutes(app, prefix);
 registerAiChatRoutes(app, prefix);
+  registerDocumentsRoutes(app, prefix);
+registerExportRoutes(app, prefix);
 
 app.get(prefix + '/health', (_req,res) => res.json({ ok:true }));
 
