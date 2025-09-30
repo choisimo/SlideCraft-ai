@@ -27,4 +27,5 @@ dev-debug.log
 .DS_Store
 # Task files
 tasks.json
-tasks/ 
+tasks/ .windsurf/
+.cursor/
